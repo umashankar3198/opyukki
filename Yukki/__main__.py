@@ -236,14 +236,14 @@ A Telegram Music+Video Streaming bot with some useful features.
 All commands can be used with: / """
 
 
-@app.on_message(filters.command("king") & filters.private)
-async def help_command(_, message):
+@app.on_message(filters.command("lhelp") & filters.private)
+async def lhelp_command(_, message):
     text, keyboard = await help_parser(message.from_user.mention)
     await app.send_message(message.chat.id, text, reply_markup=keyboard)
 
 
-@app.on_message(filters.command("null") & filters.private)
-async def start_command(_, message):
+@app.on_message(filters.command("lstart") & filters.private)
+async defstart_command(_, message):
     if len(message.text.split()) > 1:
         name = (message.text.split(None, 1)[1]).lower()
         if name[0] == "s":
@@ -331,7 +331,7 @@ async def start_command(_, message):
                             text="🎥 Watch Youtube Video", url=f"{link}"
                         ),
                         InlineKeyboardButton(
-                            text="🔄 Close", callback_data="close"
+                            text="🔄 Close", callback_data="lclose"
                         ),
                     ],
                 ]
@@ -371,7 +371,7 @@ async def start_command(_, message):
 
 async def help_parser(name, keyboard=None):
     if not keyboard:
-        keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help"))
+        keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "lhelp"))
     return (
         """Hello {first_name},
 
@@ -391,13 +391,13 @@ async def shikhar(_, CallbackQuery):
     await CallbackQuery.message.edit(text, reply_markup=keyboard)
 
 
-@app.on_callback_query(filters.regex(r"help_(.*?)"))
+@app.on_callback_query(filters.regex(r"lhelp_(.*?)"))
 async def help_button(client, query):
-    home_match = re.match(r"help_home\((.+?)\)", query.data)
-    mod_match = re.match(r"help_module\((.+?)\)", query.data)
-    prev_match = re.match(r"help_prev\((.+?)\)", query.data)
-    next_match = re.match(r"help_next\((.+?)\)", query.data)
-    back_match = re.match(r"help_back", query.data)
+    home_match = re.match(r"lhelp_home\((.+?)\)", query.data)
+    mod_match = re.match(r"lhelp_module\((.+?)\)", query.data)
+    prev_match = re.match(r"lhelp_prev\((.+?)\)", query.data)
+    next_match = re.match(r"lhelp_next\((.+?)\)", query.data)
+    back_match = re.match(r"lhelp_back", query.data)
     create_match = re.match(r"help_create", query.data)
     top_text = f"""Hello {query.from_user.first_name},
 
@@ -417,10 +417,10 @@ All commands can be used with: /
             [
                 [
                     InlineKeyboardButton(
-                        text="↪️ Back", callback_data="help_back"
+                        text="↪️ Back", callback_data="lhelp_back"
                     ),
                     InlineKeyboardButton(
-                        text="🔄 Close", callback_data="close"
+                        text="🔄 Close", callback_data="lclose"
                     ),
                 ],
             ]
@@ -444,7 +444,7 @@ All commands can be used with: /
         await query.message.edit(
             text=top_text,
             reply_markup=InlineKeyboardMarkup(
-                paginate_modules(curr_page - 1, HELPABLE, "help")
+                paginate_modules(curr_page - 1, HELPABLE, "lhelp")
             ),
             disable_web_page_preview=True,
         )
@@ -454,7 +454,7 @@ All commands can be used with: /
         await query.message.edit(
             text=top_text,
             reply_markup=InlineKeyboardMarkup(
-                paginate_modules(next_page + 1, HELPABLE, "help")
+                paginate_modules(next_page + 1, HELPABLE, "lhelp")
             ),
             disable_web_page_preview=True,
         )
@@ -463,13 +463,13 @@ All commands can be used with: /
         await query.message.edit(
             text=top_text,
             reply_markup=InlineKeyboardMarkup(
-                paginate_modules(0, HELPABLE, "help")
+                paginate_modules(0, HELPABLE, "lhelp")
             ),
             disable_web_page_preview=True,
         )
 
     elif create_match:
-        text, keyboard = await help_parser(query)
+        text, keyboard = await lhelp_parser(query)
         await query.message.edit(
             text=text,
             reply_markup=keyboard,
