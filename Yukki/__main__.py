@@ -237,13 +237,13 @@ All commands can be used with: / """
 
 
 @app.on_message(filters.command("vchelp") & filters.private)
-async def help_command(_, message):
+async def vchelp_command(_, message):
     text, keyboard = await help_parser(message.from_user.mention)
     await app.send_message(message.chat.id, text, reply_markup=keyboard)
 
 
 @app.on_message(filters.command("vcstart") & filters.private)
-async def start_command(_, message):
+async def vcstart_command(_, message):
     if len(message.text.split()) > 1:
         name = (message.text.split(None, 1)[1]).lower()
         if name[0] == "s":
@@ -289,8 +289,8 @@ async def start_command(_, message):
                     LOG_GROUP_ID,
                     f"{message.from_user.mention} has just started bot to check <code>SUDOLIST</code>\n\n**USER ID:** {sender_id}\n**USER NAME:** {sender_name}",
                 )
-        if name == "lovely":
-            text, keyboard = await lovely_parser(message.from_user.mention)
+        if name == "help":
+            text, keyboard = await help_parser(message.from_user.mention)
             await message.delete()
             return await app.send_text(
                 message.chat.id,
@@ -371,7 +371,7 @@ async def start_command(_, message):
 
 async def help_parser(name, keyboard=None):
     if not keyboard:
-        keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "lovely"))
+        keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help"))
     return (
         """Hello {first_name},
 
@@ -444,7 +444,7 @@ All commands can be used with: /
         await query.message.edit(
             text=top_text,
             reply_markup=InlineKeyboardMarkup(
-                paginate_modules(curr_page - 1, HELPABLE, "lovely")
+                paginate_modules(curr_page - 1, HELPABLE, "help")
             ),
             disable_web_page_preview=True,
         )
@@ -454,7 +454,7 @@ All commands can be used with: /
         await query.message.edit(
             text=top_text,
             reply_markup=InlineKeyboardMarkup(
-                paginate_modules(next_page + 1, HELPABLE, "lovely")
+                paginate_modules(next_page + 1, HELPABLE, "help")
             ),
             disable_web_page_preview=True,
         )
@@ -463,13 +463,13 @@ All commands can be used with: /
         await query.message.edit(
             text=top_text,
             reply_markup=InlineKeyboardMarkup(
-                paginate_modules(0, HELPABLE, "lovely")
+                paginate_modules(0, HELPABLE, "help")
             ),
             disable_web_page_preview=True,
         )
 
     elif create_match:
-        text, keyboard = await lovely_parser(query)
+        text, keyboard = await help_parser(query)
         await query.message.edit(
             text=text,
             reply_markup=keyboard,
