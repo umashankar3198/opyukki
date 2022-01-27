@@ -328,10 +328,10 @@ async def vcstart_command(_, message):
                 [
                     [
                         InlineKeyboardButton(
-                            text="🎥 Watch Youtube Video", url=f"{link}"
+                            text=" Watch Youtube Video", url=f"{link}"
                         ),
                         InlineKeyboardButton(
-                            text="🔄 Close", callback_data="close"
+                            text="Close", callback_data="close"
                         ),
                     ],
                 ]
@@ -420,7 +420,7 @@ All commands can be used with: /
                         text="Back", callback_data="lovely_back"
                     ),
                     InlineKeyboardButton(
-                        text="Home", callback_data="emiko"
+                        text="Home", callback_data="emiko_back"
                     ),
                 ],
             ]
